@@ -28,7 +28,7 @@ def check_password():
     with col2:
         password = st.text_input("교수님/조원 전용 접속 비밀번호를 입력해 주세요.", type="password", placeholder="비밀번호 4자리")
         
-        if password == "1234":  # 원하는 비밀번호
+        if password == "6802":  # 원하는 비밀번호
             st.session_state["password_correct"] = True  # 맞췄다는 사실을 메모리에 저장
             st.rerun()  # 화면을 즉시 새로고침해서 비밀번호 창을 날려버림!
         elif password != "":
