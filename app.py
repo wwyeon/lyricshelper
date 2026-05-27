@@ -4,7 +4,7 @@ import json
 from openai import OpenAI
 
 # ──────────────────────────────────────────────────────────────
-# 페이지 설정
+# 페이지 설정 (반드시 맨 처음에 와야 합니다!)
 # ──────────────────────────────────────────────────────────────
 st.set_page_config(
     page_title="J-POP 가사 분석기",
@@ -12,6 +12,24 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="collapsed",
 )
+
+# ──────────────────────────────────────────────────────────────
+# 🔒 접속 비밀번호 잠금 화면
+# ──────────────────────────────────────────────────────────────
+def check_password():
+    st.markdown("<h3 style='text-align: center; margin-top: 50px;'>🔒 J-POP 학습기 접근 권한 확인</h3>", unsafe_allow_html=True)
+    
+    col1, col2, col3 = st.columns([1, 2, 1])
+    with col2:
+        password = st.text_input("교수님/조원 전용 접속 비밀번호를 입력해 주세요.", type="password", placeholder="비밀번호 4자리")
+        if password == "6802":  # 원하는 비밀번호로 변경하세요
+            return True
+        elif password != "":
+            st.error("❌ 비밀번호가 일치하지 않습니다.")
+    return False
+
+if not check_password():
+    st.stop() # 비밀번호가 맞을 때까지 아래 코드는 절대 실행되지 않습니다.
 
 # ──────────────────────────────────────────────────────────────
 # 커스텀 CSS (미니멀 & 태블릿 최적화)
