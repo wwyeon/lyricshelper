@@ -14,22 +14,30 @@ st.set_page_config(
 )
 
 # ──────────────────────────────────────────────────────────────
-# 🔒 접속 비밀번호 잠금 화면
+# 2. 🔒 접속 비밀번호 잠금 화면
 # ──────────────────────────────────────────────────────────────
 def check_password():
+    # 1) 이미 비밀번호를 맞췄던 기억(메모리)이 있다면 창을 띄우지 않고 바로 통과!
+    if st.session_state.get("password_correct", False):
+        return True
+
+    # 2) 아직 안 맞췄다면 비밀번호 입력창 띄우기
     st.markdown("<h3 style='text-align: center; margin-top: 50px;'>🔒 J-POP 학습기 접근 권한 확인</h3>", unsafe_allow_html=True)
     
     col1, col2, col3 = st.columns([1, 2, 1])
     with col2:
         password = st.text_input("교수님/조원 전용 접속 비밀번호를 입력해 주세요.", type="password", placeholder="비밀번호 4자리")
-        if password == "6802":  # 원하는 비밀번호로 변경하세요
-            return True
+        
+        if password == "1234":  # 원하는 비밀번호
+            st.session_state["password_correct"] = True  # 맞췄다는 사실을 메모리에 저장
+            st.rerun()  # 화면을 즉시 새로고침해서 비밀번호 창을 날려버림!
         elif password != "":
             st.error("❌ 비밀번호가 일치하지 않습니다.")
+            
     return False
 
 if not check_password():
-    st.stop() # 비밀번호가 맞을 때까지 아래 코드는 절대 실행되지 않습니다.
+    st.stop() # 비밀번호가 맞을 때까지 아래의 모든 메인 화면은 절대 열리지 않습니다.
 
 # ──────────────────────────────────────────────────────────────
 # 커스텀 CSS (미니멀 & 태블릿 최적화)
